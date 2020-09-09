@@ -15,4 +15,4 @@ jobs:
       - uses: ./.github/actions/hello-world-js-action
         with:
           who-to-greet: 'GitHub Action'
-      - run: echo {{ github.action_path }}
+      - run: echo ${{ github.action_path }}
