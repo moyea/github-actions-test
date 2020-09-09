@@ -1,0 +1,49 @@
+# workflow名称，如果省略该字段，默认为当前文件名
+name: CI
+
+# on 指定触发workflow的事件，参考 https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# workflow主体文件，表示执行一项或多项job
+jobs:
+  # job的ID
+  first_job:
+    # 可选，在GitHub展示的job名
+    name: first job
+    # 必填，指定运行所需要的虚拟机环境
+    runs-on: ubuntu-latest
+    # 可选，needs指定当前job的依赖关系，也就是指定job的运行顺序
+    # needs: job1
+
+    # 指定每个job的执行步骤
+    steps:
+      # step-1 获取源码，使用的action是actions/checkout@v2
+      - uses: actions/checkout@v2
+
+      # step-2 执行一个单行脚本，输出HelloWorld
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # step-3 执行一个多行脚本
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          
+  # 另一个 job
+  second_job:
+    name: second job
+    # 需要在 first_job 之后执行
+    needs: first_job
+    runs-on: ubuntu-latest
+    steps:
+      # second job step-1
+      - name: second job step 1
+        env: 
+          STEP_1_VAR_1: step_1_var_1
+          STEP_1_VAR_2: step_1_var_2
+        run: echo $STEP_1_VAR_1 $STEP_1_VAR_2
