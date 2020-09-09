@@ -12,4 +12,6 @@ jobs:
       # This step checks out a copy of your repository.
       - uses: actions/checkout@v2
       # This step references the directory that contains the action.
-      - uses: ./.github/actions
+      - uses: ./.github/actions/hello-world-js-action
+        with:
+          who-to-greet: 'GitHub Action'
